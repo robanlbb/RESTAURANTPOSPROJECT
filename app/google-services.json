@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "965284670978",
+    "firebase_url": "https://restaurantposproject-default-rtdb.firebaseio.com",
+    "project_id": "restaurantposproject",
+    "storage_bucket": "restaurantposproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:965284670978:android:79f1b96316b9ed5f84811b",
+        "android_client_info": {
+          "package_name": "com.example.restaurantposproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQfQ01mjnd8vbj9emBstb_CfHp2AarxNo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

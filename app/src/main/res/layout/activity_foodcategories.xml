@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FoodCategories">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical" >
+
+            <ImageButton
+                android:id="@+id/imBut_backToTables"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_gravity="left"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="10dp"
+                app:srcCompat="@drawable/arrow"
+                android:background="@drawable/grey_background"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/et_search"
+                    android:layout_width="338dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:padding="12dp"
+                    android:textAlignment="center"
+                    android:textSize="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:hint="Search"
+                    android:background="@drawable/grey_background"
+                    android:inputType="text" />
+
+                <ImageButton
+                    android:id="@+id/btn_search"
+                    android:layout_width="53dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/grey_background"
+                    android:src="@drawable/search_icon" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lv_categories"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
