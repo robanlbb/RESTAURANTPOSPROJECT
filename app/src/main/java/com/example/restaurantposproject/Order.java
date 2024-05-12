@@ -31,13 +31,12 @@ public class Order extends AppCompatActivity {
             return insets;
         });
 
-
-
-
-
         orderDetails = findViewById(R.id.order_paid_button); // Corrected button id
         orderList = findViewById(R.id.order_recycler_view);
 
+        ArrayList<FoodItem> orderData = OrderManager.getInstance().getOrderData();
+        OrderListAdapter adapter = new OrderListAdapter(orderData);
+        orderList.setAdapter(adapter);
         orderList.setLayoutManager(new LinearLayoutManager(this));
 
 
