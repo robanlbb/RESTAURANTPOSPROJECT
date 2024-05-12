@@ -95,6 +95,7 @@ ListView categories;
             // Perform action based on the clicked category
             Intent intent = new Intent(FoodCategories.this, FoodList.class);
             intent.putExtra("categoryName", clickedCategory.getName());
+            intent.getStringExtra("tableNumber");
             startActivity(intent);
         });
     }

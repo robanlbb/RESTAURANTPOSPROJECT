@@ -69,7 +69,7 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodVi
             @Override
             public void onClick(View v) {
                 // Add the food item to the order
-                OrderData.addItemToOrder(foodItem);
+
             }
         });
     }

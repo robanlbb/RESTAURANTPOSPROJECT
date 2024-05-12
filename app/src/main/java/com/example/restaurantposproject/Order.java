@@ -18,7 +18,7 @@ public class Order extends AppCompatActivity {
 
     AppCompatButton orderDetails;
     RecyclerView orderList;
-    private ArrayList<FoodItem> orderItems = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,17 +30,16 @@ public class Order extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        FoodItem selectedFoodItem = (FoodItem) getIntent().getSerializableExtra("selectedFoodItem");
-        orderItems.add(selectedFoodItem);
 
-        orderList.setLayoutManager(new LinearLayoutManager(this));
-        orderList.setAdapter(new OrderListAdapter(orderItems));
+
+
+
 
         orderDetails = findViewById(R.id.order_paid_button); // Corrected button id
         orderList = findViewById(R.id.order_recycler_view);
 
         orderList.setLayoutManager(new LinearLayoutManager(this));
-        orderList.setAdapter(new OrderListAdapter(orderItems));
+
 
         orderDetails.setOnClickListener(new View.OnClickListener() {
             @Override

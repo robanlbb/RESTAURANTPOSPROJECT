@@ -54,8 +54,7 @@ public class admin extends AppCompatActivity {
         showOrders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(admin.this, Sales.class);
-//                startActivity(intent);
+
 
             }
         });
