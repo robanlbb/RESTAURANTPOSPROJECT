@@ -31,7 +31,7 @@ public class FoodList extends AppCompatActivity {
     TextView category_name;
     RecyclerView food_list;
 
-AppCompatButton orderDetails;
+    AppCompatButton orderDetails;
 
     private DatabaseReference mDatabase;
     private List<FoodItem> foodItems = new ArrayList<>();
@@ -67,7 +67,6 @@ AppCompatButton orderDetails;
         });
 
 
-
         // Attach a ValueEventListener to the food items DatabaseReference
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -77,7 +76,7 @@ AppCompatButton orderDetails;
                 Log.d("Firebase", "Data retrieved: " + foodItems);
 
                 // Loop through the snapshot and add the food items to the list
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     FoodItem foodItem = postSnapshot.getValue(FoodItem.class);
                     foodItems.add(foodItem);
                 }
@@ -90,7 +89,8 @@ AppCompatButton orderDetails;
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.d("Firebase", "Error retrieving data: ", databaseError.toException());            }
+                Log.d("Firebase", "Error retrieving data: ", databaseError.toException());
+            }
         });
         orderDetails.setOnClickListener(new View.OnClickListener() {
             @Override

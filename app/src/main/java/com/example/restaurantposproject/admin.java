@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 
 
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -63,7 +62,7 @@ public class admin extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(admin.this,Login.class);
+                Intent intent = new Intent(admin.this, Login.class);
                 startActivity(intent);
                 finish();
 

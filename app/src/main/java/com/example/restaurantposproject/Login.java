@@ -21,18 +21,18 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class Login extends AppCompatActivity {
-EditText userName,password;
-AppCompatButton login;
+    EditText userName, password;
+    AppCompatButton login;
 
-FirebaseAuth mAuth;
+    FirebaseAuth mAuth;
 
     @Override
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            Intent intent = new Intent(Login.this,user.class);
+        if (currentUser != null) {
+            Intent intent = new Intent(Login.this, user.class);
             startActivity(intent);
         }
     }
@@ -58,21 +58,21 @@ FirebaseAuth mAuth;
             public void onClick(View v) {
                 String user = userName.getText().toString();
                 String pass = password.getText().toString();
-                if(user.equals("admin") && pass.equals("admin")){
-                    Intent intent = new Intent(Login.this,admin.class);
+                if (user.equals("admin") && pass.equals("admin")) {
+                    Intent intent = new Intent(Login.this, admin.class);
                     startActivity(intent);
                 } else if (user.isEmpty() || pass.isEmpty()) {
                     userName.setError("Please enter username");
                     password.setError("Please enter password");
-                } else if (user.equals("admin") && pass.equals("admin")){
-                    Intent intent = new Intent(Login.this,admin.class);
+                } else if (user.equals("admin") && pass.equals("admin")) {
+                    Intent intent = new Intent(Login.this, admin.class);
                     startActivity(intent);
                 } else {
-                    mAuth.signInWithEmailAndPassword(user,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    mAuth.signInWithEmailAndPassword(user, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
-                                Intent intent = new Intent(Login.this,user.class);
+                            if (task.isSuccessful()) {
+                                Intent intent = new Intent(Login.this, user.class);
                                 startActivity(intent);
                             } else {
                                 Toast.makeText(Login.this, "Invalid username or password", Toast.LENGTH_SHORT).show();

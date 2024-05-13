@@ -22,12 +22,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class user extends AppCompatActivity {
-TextView loggedUser;
-GridView gridView;
-BaseAdapter tableAdapter;
-AppCompatButton logout;
-FirebaseAuth auth;
-FirebaseUser user;
+    TextView loggedUser;
+    GridView gridView;
+    BaseAdapter tableAdapter;
+    AppCompatButton logout;
+    FirebaseAuth auth;
+    FirebaseUser user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,13 +45,13 @@ FirebaseUser user;
         gridView = findViewById(R.id.gridView);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
-        if (user == null){
-            Intent intent = new Intent(user.this,Login.class);
+        if (user == null) {
+            Intent intent = new Intent(user.this, Login.class);
             startActivity(intent);
             finish();
         }
 
-        final String[] tableNumbers = new String[] { "Table 1", "Table 2", "Table 3", "Table 4", "Table 5", "Table 6", "Table 7", "Table 8", "Table 9", "Table 10", "Table 11", "Table 12" };
+        final String[] tableNumbers = new String[]{"Table 1", "Table 2", "Table 3", "Table 4", "Table 5", "Table 6", "Table 7", "Table 8", "Table 9", "Table 10", "Table 11", "Table 12"};
 
         tableAdapter = new BaseAdapter() {
             @Override
@@ -75,8 +76,8 @@ FirebaseUser user;
                     convertView = layoutInflater.inflate(R.layout.grid_item, null);
                 }
 
-                 ImageView imageView = (ImageView)convertView.findViewById(R.id.imageview);
-                 TextView nameTextView = (TextView)convertView.findViewById(R.id.textview);
+                ImageView imageView = (ImageView) convertView.findViewById(R.id.imageview);
+                TextView nameTextView = (TextView) convertView.findViewById(R.id.textview);
 
                 imageView.setImageResource(R.drawable.table);
                 nameTextView.setText(tableNumbers[position]);
@@ -103,7 +104,7 @@ FirebaseUser user;
             public void onClick(View v) {
 
                 FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(user.this,Login.class);
+                Intent intent = new Intent(user.this, Login.class);
                 startActivity(intent);
                 finish();
 

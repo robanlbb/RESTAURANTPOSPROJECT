@@ -25,13 +25,14 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class ManageMenu extends AppCompatActivity {
-ImageButton back;
-AppCompatButton add,delete,modify,selectImage;
+    ImageButton back;
+    AppCompatButton add, delete, modify, selectImage;
 
-EditText itemName,price,description;
+    EditText itemName, price, description;
 
-Spinner category;
-FirebaseDatabase database = FirebaseDatabase.getInstance();
+    Spinner category;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +69,7 @@ FirebaseDatabase database = FirebaseDatabase.getInstance();
                 String itemDescription = description.getText().toString();
                 String itemCategory = category.getSelectedItem().toString();
 
-                if(item.isEmpty() || itemPrice.isEmpty() || itemDescription.isEmpty() || selectImage == null || itemCategory.isEmpty()){
+                if (item.isEmpty() || itemPrice.isEmpty() || itemDescription.isEmpty() || selectImage == null || itemCategory.isEmpty()) {
                     itemName.setError("Please enter item name");
                     price.setError("Please enter item price");
                     description.setError("Please enter item description");
@@ -76,15 +77,14 @@ FirebaseDatabase database = FirebaseDatabase.getInstance();
                     Toast.makeText(ManageMenu.this, "Please select a category", Toast.LENGTH_SHORT).show();
                 } else {
                     DatabaseReference myRef = database.getReference("food_list").child(itemCategory);
-                    String id = myRef.push().getKey();
                     double price = Double.parseDouble(itemPrice);
-                    FoodItem foodItem= new FoodItem(item, itemDescription, price, "itemImage");
-                    myRef.child(id).setValue(foodItem);
+                    FoodItem foodItem = new FoodItem(item, itemDescription, price, "itemImage");
+                    myRef.child(item).setValue(foodItem);
                     Toast.makeText(ManageMenu.this, "Item added successfully", Toast.LENGTH_SHORT).show();
-
                 }
             }
         });
+
 
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,11 +100,11 @@ FirebaseDatabase database = FirebaseDatabase.getInstance();
                 ((Query) itemQuery).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot itemSnapshot: dataSnapshot.getChildren()) {
+                        for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()) {
                             itemSnapshot.getRef().removeValue();
 
                         }
-                        if(dataSnapshot.getChildrenCount() == 0){
+                        if (dataSnapshot.getChildrenCount() == 0) {
                             Toast.makeText(ManageMenu.this, "Item not found", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(ManageMenu.this, "Item deleted successfully", Toast.LENGTH_SHORT).show();
@@ -136,10 +136,10 @@ FirebaseDatabase database = FirebaseDatabase.getInstance();
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
-                            for (DataSnapshot itemSnapshot: dataSnapshot.getChildren()) {
+                            for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()) {
                                 try {
                                     double price = Double.parseDouble(itemPrice);
-                                    FoodItem foodItem= new FoodItem(item, itemDescription, price, "itemImage");
+                                    FoodItem foodItem = new FoodItem(item, itemDescription, price, "itemImage");
                                     itemSnapshot.getRef().setValue(foodItem);
                                     Toast.makeText(ManageMenu.this, "Item modified successfully", Toast.LENGTH_SHORT).show();
                                 } catch (NumberFormatException e) {
@@ -167,7 +167,6 @@ FirebaseDatabase database = FirebaseDatabase.getInstance();
 
             }
         });
-
 
 
     }

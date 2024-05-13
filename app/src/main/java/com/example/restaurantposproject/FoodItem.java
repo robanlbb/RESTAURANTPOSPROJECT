@@ -5,8 +5,10 @@ public class FoodItem {
     private String description;
     private double price;
     private String image_url;
+
     FoodItem() {
     }
+
     public FoodItem(String name, String description, double price, String image_Url) {
         this.name = name;
         this.description = description;
@@ -45,9 +47,6 @@ public class FoodItem {
     public void setImage_url(String image_url) {
         this.image_url = image_url;
     }
-
-
-
 
 
 }

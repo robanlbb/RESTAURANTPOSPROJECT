@@ -25,10 +25,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FoodCategories extends AppCompatActivity {
-EditText search_text;
-ImageButton search_button,back_button;
+    EditText search_text;
+    ImageButton search_button, back_button;
 
-ListView categories;
+    ListView categories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
