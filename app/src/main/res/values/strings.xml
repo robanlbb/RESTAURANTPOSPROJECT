@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">RESTAURANTPOSPROJECT</string>
     <string-array name="categoryArray">
-        <item>Meat</item>
-        <item>Chicken</item>
-        <item>Pizza</item>
-        <item>Drinks</item>
-        <item>Salad</item>
+        <item>meat</item>
+        <item>chicken</item>
+        <item>pizza</item>
+        <item>drinks</item>
+        <item>salad</item>
     </string-array>
 </resources>
