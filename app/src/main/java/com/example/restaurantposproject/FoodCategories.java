@@ -95,7 +95,7 @@ public class FoodCategories extends AppCompatActivity {
             // Perform action based on the clicked category
             Intent intent = new Intent(FoodCategories.this, FoodList.class);
             intent.putExtra("categoryName", clickedCategory.getName());
-            intent.getStringExtra("tableNumber");
+            intent.putExtra("tableNumber", getIntent().getStringExtra("tableNumber"));
             startActivity(intent);
         });
     }

@@ -82,7 +82,7 @@ public class FoodList extends AppCompatActivity {
 
                 // Create a new FoodListAdapter and set it to the RecyclerView
                 food_list.setLayoutManager(new LinearLayoutManager(FoodList.this));
-                FoodListAdapter adapter = new FoodListAdapter(foodItems);
+                FoodListAdapter adapter = new FoodListAdapter(foodItems, getIntent().getStringExtra("tableNumber"));
                 food_list.setAdapter(adapter);
             }
 
@@ -95,6 +95,7 @@ public class FoodList extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(FoodList.this, Order.class);
+                intent.putExtra("tableNumber", getIntent().getStringExtra("tableNumber"));
                 startActivity(intent);
 
 

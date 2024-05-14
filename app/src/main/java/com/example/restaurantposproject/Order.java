@@ -23,11 +23,12 @@ public class Order extends AppCompatActivity implements OrderListAdapter.OnQuant
     TextView orderTotal;
 
     ImageView back;
+    String tableNumber;
 
     @Override
     public void onQuantityChange() {
         double total = 0;
-        for (FoodItem item : OrderManager.getInstance().getOrderData()) {
+        for (FoodItem item : OrderManager.getInstance().getOrderData(tableNumber)) {
             total += item.getPrice() * item.getQuantity();
         }
         orderTotal.setText(String.format("%.2f", total));
@@ -47,13 +48,14 @@ public class Order extends AppCompatActivity implements OrderListAdapter.OnQuant
         orderList = findViewById(R.id.order_recycler_view);
         orderTotal = findViewById(R.id.tv_total);
         back = findViewById(R.id.imBut_backToCategories);
+        tableNumber = getIntent().getStringExtra("tableNumber");
 
         onQuantityChange();
 
 
 
 
-        ArrayList<FoodItem> orderData = OrderManager.getInstance().getOrderData();
+        ArrayList<FoodItem> orderData = OrderManager.getInstance().getOrderData(tableNumber);
         OrderListAdapter adapter = new OrderListAdapter(orderData, this);
         orderList.setAdapter(adapter);
         orderList.setLayoutManager(new LinearLayoutManager(this));

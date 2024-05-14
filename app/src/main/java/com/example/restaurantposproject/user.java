@@ -29,6 +29,7 @@ public class user extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseUser user;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
