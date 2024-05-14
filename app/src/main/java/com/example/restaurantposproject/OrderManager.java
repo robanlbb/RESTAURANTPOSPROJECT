@@ -16,10 +16,16 @@ public class OrderManager {
     }
 
     public void addItem(FoodItem item) {
+        item.setQuantity(1); // Set an initial quantity
         orderData.add(item);
     }
 
     public ArrayList<FoodItem> getOrderData() {
         return orderData;
+    }
+
+    public boolean isItemAdded(FoodItem foodItem) {
+
+        return orderData.contains(foodItem);
     }
 }

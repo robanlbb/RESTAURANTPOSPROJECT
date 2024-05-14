@@ -97,7 +97,7 @@ public class ManageMenu extends AppCompatActivity {
 
                 Query itemQuery = myRef.orderByChild("name").equalTo(item);
 
-                ((Query) itemQuery).addListenerForSingleValueEvent(new ValueEventListener() {
+                itemQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()) {

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
@@ -23,7 +24,7 @@ import java.util.List;
 
 public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodViewHolder> {
 
-    private List<FoodItem> foodItems;
+    private final List<FoodItem> foodItems;
 
     public FoodListAdapter(List<FoodItem> foodItems) {
         this.foodItems = foodItems;
@@ -43,33 +44,37 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodVi
         holder.itemName.setText(foodItem.getName());
         holder.itemDescription.setText(foodItem.getDescription());
         holder.itemPrice.setText(String.valueOf(foodItem.getPrice()));
-        // Load image using Glide or Picasso
-        Glide.with(holder.itemView)
-                .load(foodItem.getImage_url())
-                .listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        Log.e("TAG", "Load failed", e);
-                        // Logs the individual causes:
-                        for (Throwable t : e.getRootCauses()) {
-                            Log.e("TAG", "Caused by", t);
-                        }
-                        // Logs the root causes
-                        e.logRootCauses("TAG");
-                        return false; // Allow calling onLoadFailed on the Target.
-                    }
 
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        return false; // Allow calling onResourceReady on the Target.
-                    }
-                })
-                .into(holder.itemImage);
+        Glide.with(holder.itemView).load(foodItem.getImage_url()).listener(new RequestListener<Drawable>() {
+            @Override
+            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                Log.e("TAG", "Load failed", e);
+                // Logs the individual causes:
+                for (Throwable t : e.getRootCauses()) {
+                    Log.e("TAG", "Caused by", t);
+                }
+                // Logs the root causes
+                e.logRootCauses("TAG");
+                return false; // Allow calling onLoadFailed on the Target.
+            }
+
+            @Override
+            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                return false; // Allow calling onResourceReady on the Target.
+            }
+        }).into(holder.itemImage);
         holder.addtoorder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Add the food item to the order
-                OrderManager.getInstance().addItem(foodItem);
+                // Check if the item is already added
+                if (OrderManager.getInstance().isItemAdded(foodItem)) {
+                    // Show a message to the user that the item is already added
+                    Toast.makeText(holder.itemView.getContext(), "Item is already added", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Add the item to the order
+                    OrderManager.getInstance().addItem(foodItem);
+
+                }
             }
         });
     }

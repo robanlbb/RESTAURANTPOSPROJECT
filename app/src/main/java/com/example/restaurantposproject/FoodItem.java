@@ -5,16 +5,22 @@ public class FoodItem {
     private String description;
     private double price;
     private String image_url;
+    private int quantity;
 
     FoodItem() {
     }
+
+
 
     public FoodItem(String name, String description, double price, String image_Url) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.image_url = image_Url;
+
     }
+
+
 
     public String getName() {
         return name;
@@ -48,6 +54,13 @@ public class FoodItem {
         this.image_url = image_url;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
 }
 
