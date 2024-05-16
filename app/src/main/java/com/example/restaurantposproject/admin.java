@@ -16,7 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class admin extends AppCompatActivity {
-    AppCompatButton manageUsers, manageMenu, logout;
+    AppCompatButton manageUsers, manageMenu, showSales, logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +31,7 @@ public class admin extends AppCompatActivity {
 
         manageMenu = findViewById(R.id.btn_manage_menu);
         manageUsers = findViewById(R.id.btn_manage_users);
+        showSales = findViewById(R.id.btn_show_sales);
 
         logout = findViewById(R.id.btn_logout);
 
@@ -51,6 +52,14 @@ public class admin extends AppCompatActivity {
             }
         });
 
+        showSales.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(admin.this, showSales.class);
+                startActivity(intent);
+
+            }
+        });
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override

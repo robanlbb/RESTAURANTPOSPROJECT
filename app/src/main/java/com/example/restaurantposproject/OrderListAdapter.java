@@ -77,7 +77,14 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
 
     public void updateItemQuantity(FoodItem item) {
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("orders").child(item.getTableNumber()).child("items").child(item.getName());
-        mDatabase.setValue(item);
+
+        if (item.getQuantity() == 0) {
+            // If the quantity is 0, remove the item from the Firebase database
+            mDatabase.removeValue();
+        } else {
+            // If the quantity is not 0, update the quantity in the Firebase database
+            mDatabase.setValue(item);
+        }
 
         // Calculate the new total
         double newTotal = 0;

@@ -19,6 +19,9 @@
         android:theme="@style/Theme.RESTAURANTPOSPROJECT"
         tools:targetApi="31">
         <activity
+            android:name=".SalesDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".showSales"
             android:exported="false" />
         <activity

@@ -125,6 +125,9 @@ public class Order extends AppCompatActivity implements OrderListAdapter.OnQuant
                 // Remove the order from the "orders" table
                 mDatabase.removeValue();
 
+                // Clear the current order data for the specific table number from the OrderManager instance
+                OrderManager.getInstance().clearOrderData(tableNumber);
+
                 // Get a reference to the "orderNumber" node in Firebase
                 DatabaseReference orderNumberRef = FirebaseDatabase.getInstance().getReference().child("orderNumber");
 
