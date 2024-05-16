@@ -30,30 +30,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp">
-
-                <EditText
-                    android:id="@+id/et_search"
-                    android:layout_width="338dp"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:padding="12dp"
-                    android:textAlignment="center"
-                    android:textSize="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:hint="Search"
-                    android:background="@drawable/grey_background"
-                    android:inputType="text" />
-
-                <ImageButton
-                    android:id="@+id/btn_search"
-                    android:layout_width="53dp"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/grey_background"
-                    android:src="@drawable/search_icon" />
-
-
-            </LinearLayout>
+                android:layout_marginTop="10dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

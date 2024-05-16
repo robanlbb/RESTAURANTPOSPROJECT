@@ -69,14 +69,10 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodVi
             @Override
             public void onClick(View v) {
                 // Check if the item is already added
-                if (OrderManager.getInstance().isItemAdded(foodItem,tableNumber)) {
-                    // Show a message to the user that the item is already added
-                    Toast.makeText(holder.itemView.getContext(), "Item is already added", Toast.LENGTH_SHORT).show();
-                } else {
-                    // Add the item to the order
+
                     OrderManager.getInstance().addItem(foodItem,tableNumber);
 
-                }
+                
             }
         });
     }

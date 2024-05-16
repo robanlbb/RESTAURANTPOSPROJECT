@@ -2,7 +2,10 @@ package com.example.restaurantposproject;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -11,6 +14,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.graphics.Insets;
@@ -23,6 +29,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class ManageMenu extends AppCompatActivity {
     ImageButton back;
@@ -31,6 +39,10 @@ public class ManageMenu extends AppCompatActivity {
     EditText itemName, price, description;
 
     Spinner category;
+    private Uri mImageUri;
+
+    private ActivityResultLauncher<String> mGetContent;
+    private StorageReference mStorageRef;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     @Override
@@ -64,24 +76,7 @@ public class ManageMenu extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String item = itemName.getText().toString();
-                String itemPrice = price.getText().toString();
-                String itemDescription = description.getText().toString();
-                String itemCategory = category.getSelectedItem().toString();
-
-                if (item.isEmpty() || itemPrice.isEmpty() || itemDescription.isEmpty() || selectImage == null || itemCategory.isEmpty()) {
-                    itemName.setError("Please enter item name");
-                    price.setError("Please enter item price");
-                    description.setError("Please enter item description");
-                    Toast.makeText(ManageMenu.this, "Please select an image", Toast.LENGTH_SHORT).show();
-                    Toast.makeText(ManageMenu.this, "Please select a category", Toast.LENGTH_SHORT).show();
-                } else {
-                    DatabaseReference myRef = database.getReference("food_list").child(itemCategory);
-                    double price = Double.parseDouble(itemPrice);
-                    FoodItem foodItem = new FoodItem(item, itemDescription, price, "itemImage");
-                    myRef.child(item).setValue(foodItem);
-                    Toast.makeText(ManageMenu.this, "Item added successfully", Toast.LENGTH_SHORT).show();
-                }
+            uploadFile();
             }
         });
 
@@ -161,13 +156,61 @@ public class ManageMenu extends AppCompatActivity {
             }
         });
 
+        mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
+
+        mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
+                new ActivityResultCallback<Uri>() {
+                    @Override
+                    public void onActivityResult(Uri uri) {
+                        // Handle the returned Uri
+                        mImageUri = uri;
+                    }
+                });
+
         selectImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                mGetContent.launch("image/*");
             }
         });
 
+    }
 
+    private void uploadFile() {
+        if (mImageUri != null) {
+            StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + ".jpg");
+
+            fileReference.putFile(mImageUri)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        // Wait a while until getDownloadUrl() is completed
+                        Handler handler = new Handler();
+                        handler.postDelayed(() -> {}, 500);
+
+                        fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                            // Get the download URL and store it in Firebase Database
+                            String downloadUrl = uri.toString();
+                            String item = itemName.getText().toString();
+                            String itemPrice = price.getText().toString();
+                            String itemDescription = description.getText().toString();
+                            String itemCategory = category.getSelectedItem().toString();
+                            DatabaseReference myRef = database.getReference("food_list").child(itemCategory);
+                            double price = Double.parseDouble(itemPrice);
+                            FoodItem foodItem = new FoodItem(item, itemDescription, price, downloadUrl);
+                            myRef.child(item).setValue(foodItem);
+                            Toast.makeText(ManageMenu.this, "Item added successfully", Toast.LENGTH_SHORT).show();
+                        });
+                    })
+                    .addOnFailureListener(e -> {
+                        // Handle unsuccessful uploads
+                        Toast.makeText(ManageMenu.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
+        }
     }
 }
+
+
+
+
+

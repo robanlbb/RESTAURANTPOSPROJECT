@@ -8,6 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -28,55 +30,77 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
         return new OrderViewHolder(view);
     }
 
+
+
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
-        FoodItem foodItem = orderData.get(position);
+        FoodItem foodItem = orderData.get(holder.getAdapterPosition());
         holder.itemName.setText(foodItem.getName());
         holder.itemPrice.setText(String.valueOf(foodItem.getPrice()));
         holder.itemQuantity.setText(String.valueOf(foodItem.getQuantity()));
 
-        holder.itemTotalPrice.setText(String.valueOf(foodItem.getPrice()));
-
-        holder.minus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int quantity = foodItem.getQuantity();
-                if (quantity > 0) {
-                    quantity--;
-                    foodItem.setQuantity(quantity);
-                    holder.itemQuantity.setText(String.valueOf(quantity));
-                    holder.itemTotalPrice.setText(String.valueOf(foodItem.getPrice() * quantity));
-                    quantityChangeListener.onQuantityChange();
-                }
-            }
-        });
+        holder.itemTotalPrice.setText(String.valueOf(foodItem.getPrice() * foodItem.getQuantity()));
 
         holder.plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int quantity = foodItem.getQuantity();
+                int quantity = Integer.parseInt(holder.itemQuantity.getText().toString());
                 quantity++;
-                foodItem.setQuantity(quantity);
                 holder.itemQuantity.setText(String.valueOf(quantity));
-                holder.itemTotalPrice.setText(String.valueOf(foodItem.getPrice() * quantity));
+                foodItem.setQuantity(quantity); // Update the quantity in the local list
+                holder.itemTotalPrice.setText(String.valueOf(foodItem.getPrice() * quantity)); // Update the total price
+                updateItemQuantity(foodItem);
                 quantityChangeListener.onQuantityChange();
             }
         });
-        // Set other views in the holder with data from foodItem
+
+        holder.minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int quantity = Integer.parseInt(holder.itemQuantity.getText().toString());
+                if (quantity > 0) {
+                    quantity--;
+                    holder.itemQuantity.setText(String.valueOf(quantity));
+                    foodItem.setQuantity(quantity); // Update the quantity in the local list
+                    holder.itemTotalPrice.setText(String.valueOf(foodItem.getPrice() * quantity)); // Update the total price
+                    updateItemQuantity(foodItem);
+                    quantityChangeListener.onQuantityChange();
+                } else {
+                    // If quantity is 0, remove the item from the order
+                    orderData.remove(foodItem);
+                    notifyDataSetChanged();
+                }
+            }
+        });
     }
 
 
+    public void updateItemQuantity(FoodItem item) {
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("orders").child(item.getTableNumber()).child("items").child(item.getName());
+        mDatabase.setValue(item);
+
+        // Calculate the new total
+        double newTotal = 0;
+        for (FoodItem foodItem : orderData) {
+            newTotal += foodItem.getPrice() * foodItem.getQuantity();
+        }
+
+        // Update the total value in the Firebase database
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("orders").child(item.getTableNumber()).child("total");
+        mDatabase.setValue(newTotal);
+    }
 
     @Override
     public int getItemCount() {
         return orderData.size();
     }
+
     public interface OnQuantityChangeListener {
         void onQuantityChange();
     }
-    public static class OrderViewHolder extends RecyclerView.ViewHolder {
+
+    public class OrderViewHolder extends RecyclerView.ViewHolder {
         TextView itemName, itemPrice, itemQuantity, itemTotalPrice, minus, plus;
-        // Add other views that are in your order item layout
 
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -86,8 +110,6 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
             itemTotalPrice = itemView.findViewById(R.id.tv_itemTotal);
             minus = itemView.findViewById(R.id.btn_subQuantity);
             plus = itemView.findViewById(R.id.btn_addQuantity);
-
-
         }
     }
 }

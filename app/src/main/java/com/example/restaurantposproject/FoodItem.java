@@ -6,6 +6,9 @@ public class FoodItem {
     private double price;
     private String image_url;
     private int quantity;
+    private String tableNumber; // Add this field
+
+
 
     FoodItem() {
     }
@@ -61,6 +64,15 @@ public class FoodItem {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+    public String getTableNumber() {
+        return tableNumber;
+    }
+
+    public void setTableNumber(String tableNumber) {
+        this.tableNumber = tableNumber;
+    }
+
+
 
 }
 

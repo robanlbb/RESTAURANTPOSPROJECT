@@ -52,7 +52,7 @@
         android:ems="10"
         android:gravity="center"
         android:hint="New Item Price"
-        android:inputType="text"
+        android:inputType="numberDecimal"
         app:layout_constraintBottom_toTopOf="@+id/et_itemDescription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.505"

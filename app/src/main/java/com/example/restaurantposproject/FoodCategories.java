@@ -40,8 +40,7 @@ public class FoodCategories extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        search_text = findViewById(R.id.et_search);
-        search_button = findViewById(R.id.btn_search);
+
         back_button = findViewById(R.id.imBut_backToTables);
         categories = findViewById(R.id.lv_categories);
 

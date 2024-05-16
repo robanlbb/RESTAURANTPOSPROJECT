@@ -41,7 +41,7 @@ public class ManageUsers extends AppCompatActivity {
         userName = findViewById(R.id.et_newUsername);
         password = findViewById(R.id.et_newPassword);
         add = findViewById(R.id.btn_add_user);
-
+        mAuth = FirebaseAuth.getInstance();
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
