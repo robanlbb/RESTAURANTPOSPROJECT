@@ -1,5 +1,6 @@
 package com.example.restaurantposproject;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -89,6 +90,7 @@ public class Order extends AppCompatActivity implements OrderListAdapter.OnQuant
 
                 // Set the total
                 orderTotal.setText(String.format("%.2f", total));
+
             }
 
             @Override
@@ -155,6 +157,8 @@ public class Order extends AppCompatActivity implements OrderListAdapter.OnQuant
                             DatabaseReference paidOrdersDatabase = FirebaseDatabase.getInstance().getReference().child("paid_orders").child(orderDate).child(orderNumber);
                             paidOrdersDatabase.child("items").setValue(items);
                             paidOrdersDatabase.child("total").setValue(formattedTotalOrderBill);
+
+                            orderList.setBackgroundColor(Color.WHITE);
 
                             Toast.makeText(Order.this, "Transaction completed", Toast.LENGTH_SHORT).show();
                             finish();

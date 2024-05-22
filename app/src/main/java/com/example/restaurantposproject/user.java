@@ -1,6 +1,7 @@
 package com.example.restaurantposproject;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,11 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class user extends AppCompatActivity {
     TextView loggedUser;
@@ -46,6 +52,8 @@ public class user extends AppCompatActivity {
         gridView = findViewById(R.id.gridView);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
+        DatabaseReference ordersRef = FirebaseDatabase.getInstance().getReference().child("orders");
+
         if (user == null) {
             Intent intent = new Intent(user.this, Login.class);
             startActivity(intent);
@@ -83,6 +91,26 @@ public class user extends AppCompatActivity {
                 imageView.setImageResource(R.drawable.table);
                 nameTextView.setText(tableNumbers[position]);
 
+                // Add a listener to the specific table in the orders node
+                View finalConvertView = convertView;
+                ordersRef.child(tableNumbers[position]).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            // If there is an order for this table, set the background color to red
+                            finalConvertView.setBackgroundColor(Color.RED);
+                        } else {
+                            // If there is no order for this table, set the background color to white
+                            finalConvertView.setBackgroundColor(Color.WHITE);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // Handle error
+                    }
+                });
+
                 return convertView;
             }
         };
@@ -91,9 +119,8 @@ public class user extends AppCompatActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Handle the click event here
-                // 'position' is the position of the clicked item in the GridView
-                // For example, you can start a new activity and pass the table number to it:
+
+
                 Intent intent = new Intent(user.this, FoodCategories.class);
                 intent.putExtra("tableNumber", tableNumbers[position]); // Pass the table number to the new activity
                 startActivity(intent);
