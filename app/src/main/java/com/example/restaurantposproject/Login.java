@@ -58,7 +58,7 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 String user = userName.getText().toString();
                 String pass = password.getText().toString();
-                if (user.equals("admin") && pass.equals("admin")) {
+                if (user.equals("admin") && pass.equals("S@il2boat3")) {
                     Intent intent = new Intent(Login.this, admin.class);
                     startActivity(intent);
                 } else if (user.isEmpty() || pass.isEmpty()) {
