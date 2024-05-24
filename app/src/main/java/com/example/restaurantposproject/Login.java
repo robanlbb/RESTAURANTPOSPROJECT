@@ -64,7 +64,7 @@ public class Login extends AppCompatActivity {
                 } else if (user.isEmpty() || pass.isEmpty()) {
                     userName.setError("Please enter username");
                     password.setError("Please enter password");
-                } else if (user.equals("admin") && pass.equals("admin")) {
+                } else if (user.equals("admin") && pass.equals("S@il2boat3")) {
                     Intent intent = new Intent(Login.this, admin.class);
                     startActivity(intent);
                 } else {
